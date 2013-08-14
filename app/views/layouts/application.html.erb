@@ -1,31 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Atlas</title>
+  <title>Atlas - Testing System</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+  <![endif]-->
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-
-	<div id="user_nav">
-		<% if current_user %>
-			Logged in as <%= current_user.email %> |
-		<%= link_to "Log out", log_out_path %>
+  <div class="navbar navbar-fixed-top">
+  	<div class ="navbar navbar-inverse">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <a class="brand" href="#">Atlas</a>
+        <div class="nav-collapse">
+          <ul class="nav">
+            <li><%= link_to "Projects", projects_path %></li>
+            <li><%= link_to "Tests", tests_path%></li>
+            <li><%= link_to "Bugs", bugs_path %></li>
+            <li><%= link_to "Cart" %></li>
+            <li>
+            	<% if current_user %>
+		<%= link_to "Log out", log_out_path %></li>
+      <li>Logged in as  <%= current_user.email %></li>
+    
 		<% else %>
-			<%= link_to "Sign up", sign_up_path %> or
-			<%= link_to "Log in", log_in_path %>
+			<li><%= link_to "Sign up", sign_up_path %></li>
+			<li><%= link_to "Log in", log_in_path %></li>
+
 
 		<% end %>
 
-	</div>
 
+				
 
-	<% flash.each do |name, msg| %>
-		<%= content_tag :div, msg, :id => "flash#{name}" %>
-	<% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
 
-<%= yield %>
+  
 
+  <% if User.authenticate(params[:email], params[:password]) %>
+  	<div class="alert alert-info">
+  	<% flash.each do |name, msg| %>
+			<%= content_tag :div, msg, :id => "flash#{name}" %>
+		<% end %>
+  </div>
+
+  <% end %>
+
+  <div class="container">
+    <div class="row">
+      <div class="span9"><%= yield %></div>
+      <div class="span3">
+       
+      </div>
+    </div>
+  </div>
 </body>
 </html>
+
